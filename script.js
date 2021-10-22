@@ -1,22 +1,80 @@
 const canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
-let picBackground = new Image();
-    picBackground.src = "./pic/background.jpg";
+let soundStep = new Audio('./sound/step.mp3');
 
-let picPlayer = new Image();
-    picPlayer.src = "./pic/player.png"
+let picBackground = new Image();
+picBackground.src = "./pic/background.jpg";
+
+let picPlayerLeft = new Image();
+picPlayerLeft.src = "./pic/playerLeft.png";
+let picPlayerRight = new Image();
+picPlayerRight.src = "./pic/playerRight.png";
+let arrPicPlayer = [];
+arrPicPlayer['left'] = picPlayerLeft;
+arrPicPlayer['right'] = picPlayerRight;
 
 let picEnemy = new Image();
-    picEnemy.src = "./pic/enemy.png";
+picEnemy.src = "./pic/enemy.png";
 
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 
-function draw(){
+function resizeImg(img, percent) {
+    let prop;
+    if (img.width > img.height) {
+        prop = img.width / img.height;
+        img.height = window.innerHeight * percent / 100;
+        img.width = img.height * prop;
+    } else {
+        prop = img.height / img.width;
+        img.width = window.innerHeight * percent / 100;
+        img.height = img.width * prop;
+    }
+}
+let xPlayer = 50,
+    yPlayer = 810,
+    speedPlayer = 5,
+    navPlayer = 'right'
+xEnemy = 750,
+    yEnemy = 845;
+
+function draw() {
+    let picPlayer = arrPicPlayer[navPlayer]
+    resizeImg(picPlayer, 8);
+    resizeImg(picEnemy, 5);
     ctx.drawImage(picBackground, 0, 0, window.innerWidth, window.innerHeight);
-    ctx.drawImage(picPlayer, 50, 764, picPlayer.width/20, picPlayer.height/20);
-    ctx.drawImage(picEnemy, 750, 760, picPlayer.width/20, picPlayer.height/20);
+    ctx.drawImage(picPlayer, xPlayer, yPlayer, picPlayer.width, picPlayer.height);
+    ctx.drawImage(picEnemy, xEnemy, yEnemy, picEnemy.width, picEnemy.height);
 }
 
-picPlayer.onload = picBackground.onload = draw;
+picEnemy.onload = picPlayerLeft.onload = picPlayerRight.onload = picBackground.onload = draw;
+
+document.addEventListener('keyup', (event)=>{
+    let KeyPressed = event.code;
+    switch (KeyPressed) {
+        case 'ArrowLeft':
+            xPlayer -= speedPlayer;
+            navPlayer = 'left';
+            soundStep.play();
+            break;
+        case 'ArrowRight':
+            xPlayer += speedPlayer;
+            navPlayer = 'right';
+            soundStep.play();
+            break;
+    }
+    draw();
+});
+document.addEventListener('keydown', (event) => {
+    let KeyPressed = event.code;
+    switch (KeyPressed) {
+        case 'ArrowLeft':
+            soundStep.pause();
+        break;
+        case 'ArrowRight':
+            soundStep.pause();
+        break;
+    }
+    draw();
+});
