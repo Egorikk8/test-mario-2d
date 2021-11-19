@@ -15,6 +15,7 @@ picPlayerRight.src = "./pic/playerRight.png";
 let arrPicPlayer = [];
 arrPicPlayer['left'] = picPlayerLeft;
 arrPicPlayer['right'] = picPlayerRight;
+//--------------------Картинки------------------//
 
 //-----------Контейнеры--------------//
 let picEnemyLeft = new Image();
@@ -59,6 +60,7 @@ function resizeImg(img, percent) {
         img.height = img.width * prop;
     }
 }
+//-----------Контейнеры--------------//
 
 //-----------------Переменные------------//
 let startGame = false;
@@ -90,6 +92,9 @@ function checkCollision(x1, x2, y1, y2, r1, r2, b1, b2) {
     }
 }
 
+//-----------------Переменные------------//
+
+//---------------------Шрифт,Размер-------------//
 function draw() {
     let buttonStart = new Path2D;
 
@@ -204,6 +209,9 @@ function draw() {
         });
     }
 }
+//---------------------Шрифт,Размер-------------//
+
+//---------------------Звуки,Музыка--------------//
 picEnemyRight.onload = picPlayerLeft.onload = picPlayerLeft.onload = picBackground.onload = draw;
 
 document.addEventListener('keydown', (event) => {
@@ -237,3 +245,4 @@ document.addEventListener('keyup', (event) => {
     }
     draw();
 });
+//---------------------Звуки,Музыка--------------//
